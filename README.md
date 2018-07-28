@@ -2,6 +2,10 @@
 
 This is an app created for practise android development, the code is not clean (my apologies).
 
+# Screenshots
+![alt text](https://github.com/Jorgee97/CoreMusicApp/blob/master/screenshots/2.png)
+![alt text](https://github.com/Jorgee97/CoreMusicApp/blob/master/screenshots/1.png)
+
 # Features 
 Actually the app does this:
 - List all songs on the device.
