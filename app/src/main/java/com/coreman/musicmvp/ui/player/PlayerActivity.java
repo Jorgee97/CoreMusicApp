@@ -13,8 +13,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -35,12 +39,20 @@ public class PlayerActivity extends AppCompatActivity implements View.OnClickLis
     ImageView mAlbumArt;
     @BindView(R.id.playing_now_title)
     TextView mTitle;
+    @BindView(R.id.playing_now_artist)
+    TextView mArtist;
     @BindView(R.id.playing_now_play_pause)
     ImageButton mPlayPause;
     @BindView(R.id.playing_now_next)
     ImageButton mNext;
     @BindView(R.id.playing_now_prev)
     ImageButton mPrev;
+    @BindView(R.id.progressBar)
+    ProgressBar mProgressBar;
+    @BindView(R.id.playing_now_song_duration)
+    TextView mSongDuration;
+    @BindView(R.id.actualState)
+    TextView mActualStateSong;
 
     public boolean isPaused;
 
@@ -50,12 +62,18 @@ public class PlayerActivity extends AppCompatActivity implements View.OnClickLis
             if (intent.hasExtra(MusicPlayService.CURRENT_SONG_INFO)) {
                 Song currentPlayingSong = intent.getParcelableExtra(MusicPlayService.CURRENT_SONG_INFO);
 
-                Log.i(TAG, "onReceive: " + currentPlayingSong.getDuration());
+                mProgressBar.setMax((int) currentPlayingSong.getDuration());
                 mTitle.setText(currentPlayingSong.getTitle());
+                mArtist.setText(currentPlayingSong.getArtist());
                 Glide.with(getApplicationContext())
                         .load(ActionUtils.getAlbumArtUri(currentPlayingSong.getAlbumId()).toString())
                         .apply(new RequestOptions().placeholder(R.drawable.default_album_image_x64))
                         .into(mAlbumArt);
+
+            } else if (intent.hasExtra(MusicPlayService.CURRENT_STATE)) {
+                mProgressBar.setProgress(Integer.parseInt(intent.getStringExtra(MusicPlayService.CURRENT_STATE)));
+                mActualStateSong.setText(
+                        ActionUtils.makeShortTimeString(Long.parseLong(intent.getStringExtra(MusicPlayService.CURRENT_STATE))));
             }
         }
     };
@@ -77,12 +95,18 @@ public class PlayerActivity extends AppCompatActivity implements View.OnClickLis
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(MusicPlayService.CURRENT_SONG_INFO);
+        filter.addAction(MusicPlayService.CURRENT_STATE);
 
         registerReceiver(mReceiver, filter);
     }
 
     private void initViews(Song currentPlaying) {
         mTitle.setText(currentPlaying.getTitle());
+        mTitle.startAnimation((Animation) AnimationUtils.loadAnimation(this, R.anim.translate));
+
+        mArtist.setText(currentPlaying.getArtist());
+        mProgressBar.setMax((int) currentPlaying.getDuration());
+        mSongDuration.setText(ActionUtils.makeShortTimeString(currentPlaying.getDuration()));
         Glide.with(getApplicationContext())
                 .load(ActionUtils.getAlbumArtUri(currentPlaying.getAlbumId()).toString())
                 .apply(new RequestOptions().placeholder(R.drawable.default_album_image_x64))
@@ -97,6 +121,18 @@ public class PlayerActivity extends AppCompatActivity implements View.OnClickLis
         mPlayPause.setOnClickListener(this);
         mNext.setOnClickListener(this);
         mPrev.setOnClickListener(this);
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent sendCommand = new Intent(MusicPlayService.DURATION_SONG);
+                sendBroadcast(sendCommand);
+                handler.postDelayed(this, 1000);
+            }
+        }, 1000);
+
+        findViewById(R.id.appBarLayout).bringToFront();
     }
 
     @Override

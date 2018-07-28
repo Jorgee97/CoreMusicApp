@@ -10,76 +10,126 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
+        android:background="@null"
+        app:elevation="0dp">
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            android:background="@android:color/transparent"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
     </android.support.design.widget.AppBarLayout>
 
-    <ImageView
-        android:id="@+id/playing_now_album_art"
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardbeauty"
         android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
-        app:srcCompat="@android:color/holo_green_light" />
-
-    <TextView
-        android:id="@+id/playing_now_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="320dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Cry for the moon - Epica"
-        android:textAlignment="center"
-        android:textSize="24sp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="10dp"
+        android:elevation="10dp"
+        app:cardPreventCornerOverlap="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/playing_now_album_art" />
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
 
-    <ImageButton
-        android:id="@+id/playing_now_play_pause"
-        android:layout_width="94dp"
-        android:layout_height="96dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/ic_baseline_pause_circle_outline_24px"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/playing_now_album_art"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:scaleType="centerCrop"
+                app:srcCompat="@android:color/holo_green_light" />
+
+            <TextView
+                android:id="@+id/playing_now_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/playing_now_album_art"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:textColor="@android:color/black"
+                android:text="Cry for the moon - Epica"
+                android:singleLine="true"
+                android:ellipsize="none"
+                android:textAlignment="center"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/playing_now_artist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/playing_now_title"
+                android:layout_marginTop="2dp"
+                android:text="Epica"
+                android:textAlignment="center"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="0dp"
+        android:layout_height="4dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/playing_now_title" />
+        app:layout_constraintTop_toBottomOf="@+id/cardbeauty" />
 
-    <ImageButton
-        android:id="@+id/playing_now_prev"
-        android:layout_width="60dp"
-        android:layout_height="55dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginStart="8dp"
-        android:background="@drawable/ic_baseline_skip_previous_24px"
-        app:layout_constraintBottom_toBottomOf="@+id/playing_now_play_pause"
-        app:layout_constraintEnd_toStartOf="@+id/playing_now_play_pause"
-        app:layout_constraintStart_toStartOf="parent" />
+    <TextView
+        android:id="@+id/actualState"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="2dp"
+        android:text="2:50"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
 
-    <ImageButton
-        android:id="@+id/playing_now_next"
-        android:layout_width="60dp"
-        android:layout_height="55dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/ic_baseline_skip_next_24px"
-        app:layout_constraintBottom_toBottomOf="@+id/playing_now_play_pause"
+    <TextView
+        android:id="@+id/playing_now_song_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="2dp"
+        android:text="3:50"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/playing_now_play_pause" />
+        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar">
 
+        <ImageButton
+            android:id="@+id/playing_now_prev"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/ic_baseline_skip_previous_24px" />
+
+        <ImageButton
+            android:id="@+id/playing_now_play_pause"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/ic_baseline_pause_circle_filled_24px" />
+
+        <ImageButton
+            android:id="@+id/playing_now_next"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/ic_baseline_skip_next_24px" />
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

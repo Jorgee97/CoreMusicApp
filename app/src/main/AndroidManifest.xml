@@ -31,7 +31,7 @@
         <activity
             android:name=".ui.player.PlayerActivity"
             android:label="@string/title_activity_player"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/AppTheme"
             android:parentActivityName=".ui.main.MainActivity">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.main.MainActivity"/>
